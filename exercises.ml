@@ -342,3 +342,18 @@ let%test_unit "Extract a Slice From a List" =
     (slice [ "a"; "b"; "c"; "d"; "e"; "f"; "g"; "h"; "i"; "j" ] 2 6)
     [ "c"; "d"; "e"; "f"; "g" ]
 ;;
+
+(* Rotate a List N Places to the Left *)
+let rotate xs n =
+  let rec loop i ys = function
+    | [] -> List.rev ys
+    | h :: t -> if i = n then List.append t (List.rev ys) else loop (n + 1) (h :: ys) t
+  in
+  loop 1 [] xs
+;;
+
+let%test_unit "Rotate a list N places to the left" =
+  [%test_eq: string list]
+    (rotate [ "a"; "b"; "c"; "d"; "e"; "f"; "g"; "h" ] 3)
+    [ "d"; "e"; "f"; "g"; "h"; "a"; "b"; "c" ]
+;;
